@@ -1,3 +1,4 @@
+# Cole's Arch Linux Installation & Configuration Scripts (CALICS)
 on an Arch live USB, run
 ```
 curl -LO CALICS.dev/CALICS1.sh
