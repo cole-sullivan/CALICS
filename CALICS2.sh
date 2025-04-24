@@ -175,6 +175,16 @@ putgitrepo() {
 	sudo -u "$USERNAME" cp -rfT "$DIR" "$2"
 }
 
+configlibrewolf() {
+	ARKENFOX="$PDIR/arkenfox.js"
+	OVERRIDES="$PDIR/user-overrides.js"
+	USERJS="$PDIR/user.js"
+	ln -fs "/home/$USERNAME/.config/firefox/overrides.js" "$OVERRIDES"
+	[ ! -f "$ARKENFOX" ] && curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$ARKENFOX"
+	cat "$ARKENFOX" "$OVERRIDES" > "$USERJS"
+	chown "$USERNAME:wheel" "$ARKENFOX" "$USERJS"
+}
+
 enrollfingerprint() {
 	TEMPOUTPUT=$(mktemp)
  	PROGRESSFILE=$(mktemp)
@@ -295,6 +305,23 @@ sudo -u "$USERNAME" mkdir -p "/home/$USERNAME/.cache/zsh/"
 
 # dbus UUID must be generated for Arch runit.
 dbus-uuidgen >/var/lib/dbus/machine-id
+
+# Install Librewolf with add-ons and correct settings.
+whiptail --infobox "Setting browser settings and add-ons..."
+
+BROWSERDIR="/home/$USERNAME/.librewolf"
+PROFILESINI="$BROWSERDIR/profiles.ini"
+
+# Start Librewolf headless in order to generate a profile to then store in a variable.
+sudo -u "$USERNAME" librewolf --headless >/dev/null 2>&1 &
+sleep 1
+PROFILE="$(sed -n "/Default=.*.default-default/ s/.*=//p" "$PROFILESINI")"
+PDIR="$BROWSERDIR/$PROFILE"
+
+[ -d "$PDIR" ] && configlibrewolf
+
+# Kill the headless Librewolf instance.
+pkill -u "$USERNAME" librewolf
 
 # Enable PipeWire and WirePlumber
 systemctl enable --user --now pipewire wireplumber pipewire-pulse
