@@ -179,7 +179,7 @@ configlibrewolf() {
 	ARKENFOX="$PDIR/arkenfox.js"
 	OVERRIDES="$PDIR/user-overrides.js"
 	USERJS="$PDIR/user.js"
-	ln -fs "/home/$USERNAME/.config/firefox/overrides.js" "$OVERRIDES"
+	ln -fs "/home/$USERNAME/.config/librewolf/overrides.js" "$OVERRIDES"
 	[ ! -f "$ARKENFOX" ] && curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$ARKENFOX"
 	cat "$ARKENFOX" "$OVERRIDES" > "$USERJS"
 	chown "$USERNAME:wheel" "$ARKENFOX" "$USERJS"
