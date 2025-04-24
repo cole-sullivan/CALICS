@@ -13,5 +13,7 @@ sh CALICS2.sh
 ## First steps after running scripts
 Store GitHub credentials for Git authentication
 ```
+git config --global user.name "Your Name"
+git config --global user.email "youremail@yourdomain.com"
 gh auth login
 ```
