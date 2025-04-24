@@ -316,7 +316,7 @@ done
 # Install Fabric
 mkdir -p "$REPODIR/fabric"
 python -m venv "$REPODIR/fabric/venv"
-source "$REPODIR/bin/activate"
+source "$REPODIR/fabric/venv/bin/activate"
 pip install git+https://github.com/Fabric-Development/fabric.git && deactivate
 
 # Install Librewolf with add-ons and correct settings.
