@@ -7,6 +7,8 @@
 ,hyprpolkitagent,"is required for GUI applications to be able to request elevated permissions."
 ,alacritty,"is the default terminal emulator."
 A,librewolf-bin,"is the default browser."
+A,librewolf-extension-bitwarden-bin,"is a password manager."
+A,librewolf-extension-ublock-origin-bin,"blocks the majority of ads."
 ,gnu-free-fonts,"provides a variety of widely used fonts."
 ,pipewire,"is the audio router and processor."
 ,pipewire-pulse,"replaces PulseAudio."
