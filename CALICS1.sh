@@ -164,6 +164,14 @@ arch-chroot /mnt /bin/sh << EOF
 	locale-gen &>/dev/null
 EOF
 
+# Set hostname
+HOSTNAME=$(whiptail --inputbox "Please enter a unique name to serve as this machine's hostname. This name will be used to identify this computer on your network." 10 60 3>&1 1>&2 2>&3 3>&1) || error "User exited."
+whiptail --title "Setting hostname" \
+	--infobox "Setting this machine's hostname." 8 70
+arch-chroot /mnt /bin/sh << EOF
+	echo "$HOSTNAME" >> /etc/hostname
+EOF
+
 # Set up GRUB
 whiptail --title "Setting up bootloader" \
 	--infobox "Configuring GRUB, the system bootloader, for use." 8 70
