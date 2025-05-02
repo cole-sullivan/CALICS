@@ -306,14 +306,12 @@ sudo -u "$USERNAME" mkdir -p "/home/$USERNAME/.cache/zsh/"
 # dbus UUID must be generated for Arch runit.
 dbus-uuidgen >/var/lib/dbus/machine-id
 
-# Install Fabric's dependencies
-for x in gtk3 cairo gtk-layer-shell libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf; do
+# Install Fabric
+for x in gtk3 cairo gtk-layer-shell libdbusmenu-glib libdbusmenu-gtk3 libgirepository gobject-introspection gobject-introspection-runtime python python-pip python-gobject python-cairo python-loguru pkgconf; do
 	whiptail --title "Installation" \
-		--infobox "Installing \`$x\` which is a dependency of Fabric." 8 70
+		--infobox "Installing \`$x\` which is required to install and use the status bar." 8 70
 	installpkg "$x"
 done
-
-# Install Fabric
 mkdir -p "$REPODIR/fabric"
 python -m venv "$REPODIR/fabric/venv"
 source "$REPODIR/fabric/venv/bin/activate"
