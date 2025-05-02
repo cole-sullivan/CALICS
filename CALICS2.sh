@@ -317,7 +317,10 @@ done
 mkdir -p "$REPODIR/fabric"
 python -m venv "$REPODIR/fabric/venv"
 source "$REPODIR/fabric/venv/bin/activate"
-pip install git+https://github.com/Fabric-Development/fabric.git && deactivate
+pip install git+https://github.com/Fabric-Development/fabric.git
+pip install -r "/home/$USERNAME/.local/src/fabric/requirements.txt" && deactivate
+rm -f "/home/$USERNAME/.local/src/fabric/requirements.txt" 
+chmod +x "/home/$USERNAME/.local/bin/init_bar.sh"
 
 # Install Librewolf with add-ons and correct settings.
 whiptail --infobox "Setting browser settings and add-ons..."
