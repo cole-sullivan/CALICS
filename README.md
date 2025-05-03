@@ -1,7 +1,7 @@
 # Cole's Arch Linux Installation & Configuration Scripts (CALICS)
 
 ### CALICS1
-on an Arch live USB, connect to ethernet or run
+on an Arch live USB, connect to ethernet or connect to wifi with
 ```
 iwctl --passphrase [password] station [station] connect [network]
 ```
