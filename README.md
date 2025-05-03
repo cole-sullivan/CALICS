@@ -1,10 +1,22 @@
 # Cole's Arch Linux Installation & Configuration Scripts (CALICS)
-on an Arch live USB, run
+
+### CALICS1
+on an Arch live USB, connect to ethernet or run
+```
+iwctl --passphrase [password] station [station] connect [network]
+```
+then, run
 ```
 curl -LO CALICS.dev/CALICS1.sh
 sh CALICS1.sh
 ```
-after rebooting, as root, connect to the internet and then run
+
+### CALICS2
+after rebooting, sign in as root. then, connect to ethernet or connect to wifi with 
+```
+nmtui
+```
+then, run
 ```
 curl -LO CALICS.dev/CALICS2.sh
 sh CALICS2.sh
