@@ -76,12 +76,15 @@ setpass() {
 	echo "$PASSWORD1" | arch-chroot /mnt passwd -s
 }
 
-installgpu() {
+getgpu() {
 	GPUBRAND=$(whiptail --title "GPU driver" --radiolist \
 		"Use the arrow keys and space bar to select your GPU brand, then press Return or <OK> to continue." 20 78 4 \
 		"Intel" "Install mesa & intel-media-driver" ON \
 		"AMD" "Install mesa & libva-mesa-driver" OFF \
 		"Nvidia" "Install nvidia & nvidia-utils" OFF 3>&1 1>&2 2>&3 3>&1) || error "User exited."
+}
+
+installgpu() {
   	whiptail --title "Installation" \
 				--infobox "Installing $GPUBRAND GPU drivers for Arch." 8 70
 	case "$GPUBRAND" in
@@ -129,8 +132,14 @@ whiptail --title "Installation" \
 # Generate fstab.
 genfstab -U -p /mnt >> /mnt/etc/fstab
 
-# Set password
+# Set root password.
 setpass || error "User exited."
+
+# Get hostname.
+HOSTNAME=$(whiptail --inputbox "Please enter a unique name to serve as this machine's hostname. This name will be used to identify this computer on your network." 10 60 3>&1 1>&2 2>&3 3>&1) || error "User exited."
+
+# Get graphics driver brand.
+getgpu || error "User exited."
 
 # Install additional packages, the kernel, and firmware
 for PACKAGE in base-devel dosfstools grub efibootmgr lvm2 mtools neovim networkmanager os-prober sof-firmware sudo linux linux-headers linux-firmware; do
@@ -139,10 +148,10 @@ for PACKAGE in base-devel dosfstools grub efibootmgr lvm2 mtools neovim networkm
 	installpkg "$PACKAGE"
 done
 
-# Install GPU driver
+# Install graphics drivers.
 installgpu || error "User exited."
 
-# Generate RAM disks
+# Generate RAM disks.
 whiptail --title "Generating ramdisks" \
 	--infobox "Creating initial ramdisk environment using mkinitcpio." 8 70
 arch-chroot /mnt /bin/sh << EOF
@@ -153,7 +162,7 @@ arch-chroot /mnt /bin/sh << EOF
 	mkinitcpio -p linux &>/dev/null
 EOF
 
-# Set locale
+# Set locale.
 whiptail --title "Setting locale" \
 	--infobox "Setting the system locale." 8 70
 arch-chroot /mnt /bin/sh << EOF
@@ -164,15 +173,14 @@ arch-chroot /mnt /bin/sh << EOF
 	locale-gen &>/dev/null
 EOF
 
-# Set hostname
-HOSTNAME=$(whiptail --inputbox "Please enter a unique name to serve as this machine's hostname. This name will be used to identify this computer on your network." 10 60 3>&1 1>&2 2>&3 3>&1) || error "User exited."
+# Set hostname.
 whiptail --title "Setting hostname" \
 	--infobox "Setting this machine's hostname." 8 70
 arch-chroot /mnt /bin/sh << EOF
 	echo "$HOSTNAME" >> /etc/hostname
 EOF
 
-# Set up GRUB
+# Set up GRUB.
 whiptail --title "Setting up bootloader" \
 	--infobox "Configuring GRUB, the system bootloader, for use." 8 70
 arch-chroot /mnt /bin/sh << EOF
@@ -187,7 +195,7 @@ arch-chroot /mnt /bin/sh << EOF
 	grub-mkconfig -o /boot/grub/grub.cfg &>/dev/null
 EOF
 
-# Enable services
+# Enable services.
 arch-chroot /mnt /bin/sh << EOF
 	systemctl enable NetworkManager
 EOF
