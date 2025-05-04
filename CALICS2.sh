@@ -289,7 +289,7 @@ installationloop
 putgitrepo "$DOTFILES" "/home/$USERNAME" "$REPOBRANCH"
 rm -rf "/home/$USERNAME/.git/" "/home/$USERNAME/README.md"
 
-# Install greetd configuration in the correct spot and enable greetd.service
+# Install greetd configuration in the correct spot and enable greetd.service.
 rm -f /etc/greetd/config.toml
 echo "user = \"$USERNAME\"" >> /home/$USERNAME/tmp/config.toml
 mv /home/$USERNAME/tmp/config.toml /etc/greetd/config.toml
@@ -348,7 +348,7 @@ echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-visudo-editor
 mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
-# If user has a fingerprint reader, install fprintd and enroll fingerprint
+# If user has a fingerprint reader, install fprintd and enroll fingerprint.
 if whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10 60; then
 	installpkg fprintd
 	enrollfingerprint
@@ -357,7 +357,7 @@ if whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10
 	mv /home/$USERNAME/tmp/sudo /etc/pam.d/sudo
 fi
 
-# Cleanup
+# Cleanup.
 rm -f /etc/sudoers.d/install-aur-temp
 rm -rf /home/$USERNAME/tmp
 
