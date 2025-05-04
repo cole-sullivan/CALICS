@@ -29,3 +29,4 @@ git config --global user.name "Your Name"
 git config --global user.email "youremail@yourdomain.com"
 gh auth login
 ```
+Set up Librewolf extensions by launching Librewolf and clicking the jigsaw icon at the top right
