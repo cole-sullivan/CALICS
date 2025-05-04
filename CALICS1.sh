@@ -77,7 +77,7 @@ setpass() {
 }
 
 getgpu() {
-	GPUBRAND=$(whiptail --title "GPU driver" --radiolist \
+	GPUBRAND=$(whiptail --title "Graphics driver" --radiolist \
 		"Use the arrow keys and space bar to select your GPU brand, then press Return or <OK> to continue." 20 78 4 \
 		"Intel" "Install mesa & intel-media-driver" ON \
 		"AMD" "Install mesa & libva-mesa-driver" OFF \
