@@ -5,6 +5,7 @@
 ,greetd,"is the login manager (only used for safe auto-login from TTY)."
 ,hyprlock,"is a screen lock that is also used for the initial login."
 ,hyprpolkitagent,"is required for GUI applications to be able to request elevated permissions."
+,xdg-desktop-portal-hyprland,"provides Hyprland integration portals for sandboxed apps."
 ,alacritty,"is the default terminal emulator."
 A,librewolf-bin,"is the default browser."
 A,librewolf-extension-bitwarden-bin,"is a great password manager for Librewolf."
