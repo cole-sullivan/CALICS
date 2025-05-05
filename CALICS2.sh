@@ -179,6 +179,9 @@ configlibrewolf() {
 	ARKENFOX="$PDIR/arkenfox.js"
 	OVERRIDES="$PDIR/user-overrides.js"
 	USERJS="$PDIR/user.js"
+	if $HAS_MIPI; then
+		echo -e "\n// Enable PipeWire camera support\nuser_pref(\"media.webrtc.camera.allow-pipewire\", true);" >> /home/$USERNAME/.config/librewolf/overrides.js
+	fi
 	ln -fs "/home/$USERNAME/.config/librewolf/overrides.js" "$OVERRIDES"
 	[ ! -f "$ARKENFOX" ] && curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$ARKENFOX"
 	cat "$ARKENFOX" "$OVERRIDES" > "$USERJS"
@@ -238,6 +241,12 @@ getuserandpass || error "User exited."
 # Give warning if user already exists.
 usercheck || error "User exited."
 
+# Does user have fingerprint reader?
+HAS_FPRINT=whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10 60
+
+# Does user have MIPI webcam?
+HAS_MIPI=whiptail --title "Webcam" --yesno "Do you have a MIPI webcam?" 10 60
+
 # Last chance for user to back out before install.
 preinstallmsg || error "User exited."
 
@@ -283,6 +292,15 @@ $AURHELPER -Y --save --devel
 # the user has been created and has privileges to run sudo without a password
 # and all build dependencies are installed.
 installationloop
+
+# If user has MIPI webcam, install necessary packages.
+if $HAS_MIPI; then
+	for x in libcamera libcamera-ipa pipewire-libcamera; do
+		whiptail --title "Installation" \
+				--infobox "Installing \`$x\` which is required to use MIPI webcams." 8 70
+		installpkg "$x"
+	done
+fi
 
 # Install the dotfiles in the user's home directory, but remove .git dir and
 # other unnecessary files.
@@ -337,8 +355,14 @@ PDIR="$BROWSERDIR/$PROFILE"
 # Kill the headless Librewolf instance.
 pkill -u "$USERNAME" librewolf
 
-# Enable PipeWire and WirePlumber
+# Enable PipeWire and WirePlumber.
 systemctl enable --user --now pipewire wireplumber pipewire-pulse
+
+# If user has MIPI webcam, disable V4L2 and enable PipeWire.
+if $HAS_MIPI; then
+	mkdir -p /home/$USERNAME/.config/wireplumber/wireplumber.conf.d
+	mv /home/$USERNAME/tmp/disable-v4l2.conf /home/$USERNAME/.config/wireplumber/wireplumber.conf.d/disable-v4l2.conf
+fi
 
 # Allow wheel users to sudo with password and allow several system commands
 # (like `shutdown` to run without password).
@@ -348,8 +372,8 @@ echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-visudo-editor
 mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
-# If user has a fingerprint reader, install fprintd and enroll fingerprint.
-if whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10 60; then
+# If user has fingerprint reader, install fprintd and enroll fingerprint.
+if $HAS_FPRINT; then
 	installpkg fprintd
 	enrollfingerprint
 	rm -f /etc/pam.d/system-local-login /etc/pam.d/sudo

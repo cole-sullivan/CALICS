@@ -6,6 +6,7 @@
 ,hyprlock,"is a screen lock that is also used for the initial login."
 ,hyprpolkitagent,"is required for GUI applications to be able to request elevated permissions."
 ,xdg-desktop-portal-hyprland,"provides Hyprland integration portals for sandboxed apps."
+,xdg-desktop-portal-gtk,"provides fallback integration portals for sandboxed apps."
 ,alacritty,"is the default terminal emulator."
 A,zsh-theme-powerlevel10k-git,"is a fast and highly configurable theme for Zsh."
 A,librewolf-bin,"is the default browser."
