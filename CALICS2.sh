@@ -242,10 +242,10 @@ getuserandpass || error "User exited."
 usercheck || error "User exited."
 
 # Does user have fingerprint reader?
-HAS_FPRINT=whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10 60
+HAS_FPRINT=$(whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10 60)
 
 # Does user have MIPI webcam?
-HAS_MIPI=whiptail --title "Webcam" --yesno "Do you have a MIPI webcam?" 10 60
+HAS_MIPI=$(whiptail --title "Webcam" --yesno "Do you have a MIPI webcam?" 10 60)
 
 # Last chance for user to back out before install.
 preinstallmsg || error "User exited."
