@@ -243,13 +243,13 @@ usercheck || error "User exited."
 
 # Does user have fingerprint reader?
 HAS_FPRINT=1
-if [ whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10 60 ]; then
+if whiptail --title "Fingerprint" --yesno "Do you have a fingerprint reader?" 10 60; then
 	HAS_FPRINT=0
 fi
 
 # Does user have MIPI webcam?
 HAS_MIPI=1
-if [ whiptail --title "Webcam" --yesno "Do you have a MIPI webcam?" 10 60]; then
+if whiptail --title "Webcam" --yesno "Do you have a MIPI webcam?" 10 60; then
 	HAS_MIPI=0
 fi
 
