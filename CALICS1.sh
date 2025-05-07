@@ -165,7 +165,7 @@ EOF
 # Set time zone.
 whiptail --title "Setting time zone" \
 	--infobox "Setting the system time zone to Central Standard Time (CST)." 8 70
-arch chroot /mnt /bin/sh << EOF
+arch-chroot /mnt /bin/sh << EOF
 	ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 	hwclock --systohc
 EOF
