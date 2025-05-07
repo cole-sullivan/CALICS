@@ -362,7 +362,7 @@ PDIR="$BROWSERDIR/$PROFILE"
 pkill -u "$USERNAME" librewolf
 
 # Enable PipeWire and WirePlumber.
-systemctl enable --user --now pipewire wireplumber pipewire-pulse
+sudo -u "$USERNAME" systemctl enable --user --now pipewire wireplumber pipewire-pulse
 
 # If user has MIPI webcam, disable V4L2 and enable PipeWire.
 if [ "$HAS_MIPI" = true ]; then
