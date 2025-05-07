@@ -162,6 +162,14 @@ arch-chroot /mnt /bin/sh << EOF
 	mkinitcpio -p linux &>/dev/null
 EOF
 
+# Set time zone.
+whiptail --title "Setting time zone" \
+	--infobox "Setting the system time zone to Central Standard Time (CST)." 8 70
+arch chroot /mnt /bin/sh << EOF
+	ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
+	hwclock --systohc
+EOF
+
 # Set locale.
 whiptail --title "Setting locale" \
 	--infobox "Setting the system locale." 8 70
@@ -198,6 +206,7 @@ EOF
 # Enable services.
 arch-chroot /mnt /bin/sh << EOF
 	systemctl enable NetworkManager
+	systemctl enable systemd-timesyncd.service
 EOF
 
 # Unmount all partitions and exit live USB.
