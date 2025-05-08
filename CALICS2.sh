@@ -378,6 +378,9 @@ echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-visudo-editor
 mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
+# Set Neovim as default git editor.
+sudo -u "USERNAME" git config --global core.editor "nvim"
+
 # If user has fingerprint reader, install fprintd and enroll fingerprint.
 if [ "$HAS_FPRINT" = true ]; then
 	installpkg fprintd

@@ -27,7 +27,6 @@ Store GitHub credentials for Git authentication
 ```
 git config --global user.name "Your Name"
 git config --global user.email "youremail@yourdomain.com"
-git config --global core.editor "nvim"
 gh auth login
 ```
 Set up Librewolf extensions by launching Librewolf and clicking the jigsaw icon at the top right
