@@ -380,6 +380,9 @@ echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 # Set Neovim as default git editor.
 sudo -u "USERNAME" git config --global core.editor "nvim"
 
+# Autostart hyprpolkitagent.
+sudo -u "USERNAME" systemctl --user enable --now hyprpolkitagent.service
+
 # If user has fingerprint reader, install fprintd and enroll fingerprint.
 if [ "$HAS_FPRINT" = true ]; then
 	installpkg fprintd
