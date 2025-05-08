@@ -1,25 +1,25 @@
-# Cole's Arch Linux Installation & Configuration Scripts (CALICS)
+# Cole's Arch Linux Installation & Configuration Scripts
 
-### CALICS1
+CALICS consists of 2 scripts: CALIS (the installation script) and CALCS (the configuration script).
+
+### CALIS
 on an Arch live USB, connect to ethernet or connect to wifi with
 ```
 iwctl --passphrase [password] station [station] connect [network]
 ```
 then, run
 ```
-curl -LO CALICS.dev/CALICS1.sh
-sh CALICS1.sh
+curl -fsSL CALICS.dev/CALIS.sh | sh
 ```
 
-### CALICS2
+### CALCS
 after rebooting, sign in as root. then, connect to ethernet or connect to wifi with 
 ```
 nmtui
 ```
 then, run
 ```
-curl -LO CALICS.dev/CALICS2.sh
-sh CALICS2.sh
+curl -fsSL CALICS.dev/CALCS.sh | sh
 ```
 
 ## First steps after running scripts

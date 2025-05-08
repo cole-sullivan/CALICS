@@ -22,7 +22,7 @@ error() {
 
 welcomemsg() {
 	whiptail --title "Welcome!" \
-		--msgbox "Welcome to CALICS2, the post-install and final portion of CALICS!\\n\\nThis script will automatically install a fully-featured Linux desktop.\\n\\n" 10 60
+		--msgbox "Welcome to CALCS, Cole's Arch Linux Configuration Script!\\n\\nThis script will automatically install a fully-featured Linux desktop.\\n\\n" 10 60
 
 	whiptail --title "Important Note!" --yes-button "All ready!" \
 		--no-button "Exit script" \

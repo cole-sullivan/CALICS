@@ -14,7 +14,7 @@ error() {
 
 welcomemsg() {
 	whiptail --title "Welcome!" \
-		--msgbox "Welcome to CALICS1, the live USB portion of CALICS!\\n\\nThis script will install Arch onto your machine and prepare it for the CALICS2 installation script.\\n\\n" 10 60
+		--msgbox "Welcome to CALIS, Cole's Arch Linux Installation Script!\\n\\nThis script will install Arch onto your machine and prepare it for CALCS.\\n\\n" 10 60
 	
 	whiptail --title "Important Note!" --yes-button "All ready!" \
 		--no-button "Exit script" \
