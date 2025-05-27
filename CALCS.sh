@@ -341,6 +341,7 @@ python -m venv "$REPODIR/fabric/venv"
 source "$REPODIR/fabric/venv/bin/activate"
 pip install git+https://github.com/Fabric-Development/fabric.git
 pip install -r "/home/$USERNAME/.local/src/fabric/requirements.txt" && deactivate
+sudo -u "$USERNAME" $AURHELPER -S --noconfirm "fabric-cli-git" >/dev/null 2>&1
 rm -f "/home/$USERNAME/.local/src/fabric/requirements.txt" 
 
 # Install Librewolf with add-ons and correct settings.
