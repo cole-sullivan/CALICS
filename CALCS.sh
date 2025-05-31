@@ -375,6 +375,7 @@ sudo -u "$USERNAME" systemctl enable --user --now pipewire wireplumber pipewire-
 if [ "$HAS_MIPI" = true ]; then
 	mkdir -p /home/$USERNAME/.config/wireplumber/wireplumber.conf.d
 	mv /home/$USERNAME/tmp/disable-v4l2.conf /home/$USERNAME/.config/wireplumber/wireplumber.conf.d/disable-v4l2.conf
+	echo "--enable-features=WebRtcPipeWireCamera" >> /home/$USERNAME/.config/thorium/thorium-flags.conf
 fi
 
 # Allow wheel users to sudo with password and allow several system commands
