@@ -188,6 +188,7 @@ configlibrewolf() {
 	chown "$USERNAME:wheel" "$ARKENFOX" "$USERJS"
 }
 
+
 enrollfingerprint() {
 	TEMPOUTPUT=$(mktemp)
  	PROGRESSFILE=$(mktemp)
@@ -345,21 +346,27 @@ sudo -u "$USERNAME" $AURHELPER -S --noconfirm "fabric-cli-git" >/dev/null 2>&1
 rm -f "/home/$USERNAME/.local/src/fabric/requirements.txt" 
 
 # Install Librewolf with add-ons and correct settings.
+# Install Thorium with add-ons and correct settings.
 whiptail --infobox "Setting browser settings and add-ons..."
 
-BROWSERDIR="/home/$USERNAME/.librewolf"
-PROFILESINI="$BROWSERDIR/profiles.ini"
+BROWSERDIR="/opt/thorium-browser"
 
-# Start Librewolf headless in order to generate a profile to then store in a variable.
-sudo -u "$USERNAME" librewolf --headless >/dev/null 2>&1 &
-sleep 1
-PROFILE="$(sed -n "/Default=.*.default-default/ s/.*=//p" "$PROFILESINI")"
-PDIR="$BROWSERDIR/$PROFILE"
+mkdir -p "$BROWSERDIR/default_apps"
+mv "/home/$USERNAME/tmp/external_extensions.json" "$BROWSERDIR/default_apps/"
 
-[ -d "$PDIR" ] && configlibrewolf
-
-# Kill the headless Librewolf instance.
-pkill -u "$USERNAME" librewolf
+# BROWSERDIR="/home/$USERNAME/.librewolf"
+# PROFILESINI="$BROWSERDIR/profiles.ini"
+#
+# # Start Librewolf headless in order to generate a profile to then store in a variable.
+# sudo -u "$USERNAME" librewolf --headless >/dev/null 2>&1 &
+# sleep 1
+# PROFILE="$(sed -n "/Default=.*.default-default/ s/.*=//p" "$PROFILESINI")"
+# PDIR="$BROWSERDIR/$PROFILE"
+#
+# [ -d "$PDIR" ] && configlibrewolf
+#
+# # Kill the headless Librewolf instance.
+# pkill -u "$USERNAME" librewolf
 
 # Enable PipeWire and WirePlumber.
 sudo -u "$USERNAME" systemctl enable --user --now pipewire wireplumber pipewire-pulse
