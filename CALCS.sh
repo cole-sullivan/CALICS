@@ -175,20 +175,6 @@ putgitrepo() {
 	sudo -u "$USERNAME" cp -rfT "$DIR" "$2"
 }
 
-configlibrewolf() {
-	ARKENFOX="$PDIR/arkenfox.js"
-	OVERRIDES="$PDIR/user-overrides.js"
-	USERJS="$PDIR/user.js"
-	if [ "$HAS_MIPI" = true ]; then
-		echo -e "\n// Enable PipeWire camera support\nuser_pref(\"media.webrtc.camera.allow-pipewire\", true);" >> /home/$USERNAME/.config/librewolf/overrides.js
-	fi
-	ln -fs "/home/$USERNAME/.config/librewolf/overrides.js" "$OVERRIDES"
-	[ ! -f "$ARKENFOX" ] && curl -sL "https://raw.githubusercontent.com/arkenfox/user.js/master/user.js" > "$ARKENFOX"
-	cat "$ARKENFOX" "$OVERRIDES" > "$USERJS"
-	chown "$USERNAME:wheel" "$ARKENFOX" "$USERJS"
-}
-
-
 enrollfingerprint() {
 	TEMPOUTPUT=$(mktemp)
  	PROGRESSFILE=$(mktemp)
@@ -344,28 +330,11 @@ pip install git+https://github.com/Fabric-Development/fabric.git
 pip install -r "/home/$USERNAME/.local/src/fabric/requirements.txt" && deactivate
 rm -f "/home/$USERNAME/.local/src/fabric/requirements.txt" 
 
-# Install Librewolf with add-ons and correct settings.
 # Install Thorium with add-ons and correct settings.
 whiptail --infobox "Setting browser settings and add-ons..."
-
 BROWSERDIR="/opt/thorium-browser"
-
 mkdir -p "$BROWSERDIR/default_apps"
 mv "/home/$USERNAME/tmp/external_extensions.json" "$BROWSERDIR/default_apps/"
-
-# BROWSERDIR="/home/$USERNAME/.librewolf"
-# PROFILESINI="$BROWSERDIR/profiles.ini"
-#
-# # Start Librewolf headless in order to generate a profile to then store in a variable.
-# sudo -u "$USERNAME" librewolf --headless >/dev/null 2>&1 &
-# sleep 1
-# PROFILE="$(sed -n "/Default=.*.default-default/ s/.*=//p" "$PROFILESINI")"
-# PDIR="$BROWSERDIR/$PROFILE"
-#
-# [ -d "$PDIR" ] && configlibrewolf
-#
-# # Kill the headless Librewolf instance.
-# pkill -u "$USERNAME" librewolf
 
 # Enable PipeWire and WirePlumber.
 sudo -u "$USERNAME" systemctl enable --user --now pipewire wireplumber pipewire-pulse
