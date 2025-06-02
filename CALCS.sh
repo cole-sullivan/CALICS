@@ -69,7 +69,6 @@ adduserandpass() {
 	mkdir -p "$REPODIR"
 	chown -R "$USERNAME":wheel "$(dirname "$REPODIR")"
 	echo "$USERNAME:$PASSWORD1" | chpasswd
-	unset PASSWORD1 PASSWORD2
 }
 
 refreshkeys() {
@@ -134,7 +133,7 @@ aurinstall() {
 	whiptail --title "Installation" \
 		--infobox "Installing \`$1\` ($N of $TOTAL) from the AUR. $1 $2" 9 70
 	echo "$AURINSTALLED" | grep -q "^$1$" && return 1
-	sudo -u "$USERNAME" $AURHELPER -S --noconfirm --sudoloop "$1" >/dev/null 2>&1
+	echo "$PASSWORD1" | sudo -Su "$USERNAME" $AURHELPER -S --noconfirm "$1" >/dev/null 2>&1
 }
 
 pipinstall() {
@@ -372,6 +371,7 @@ fi
 # Cleanup.
 rm -f /etc/sudoers.d/install-aur-temp
 rm -rf /home/$USERNAME/tmp
+unset PASSWORD1 PASSWORD2
 
 # Last message! Install complete!
 finalize
