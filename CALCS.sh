@@ -134,7 +134,7 @@ aurinstall() {
 	whiptail --title "Installation" \
 		--infobox "Installing \`$1\` ($N of $TOTAL) from the AUR. $1 $2" 9 70
 	echo "$AURINSTALLED" | grep -q "^$1$" && return 1
-	sudo -u "$USERNAME" HOME="/home/$USERNAME" $AURHELPER -S --noconfirm "$1"
+	runuser -u "$USERNAME" -- $AURHELPER -S --noconfirm "$1"
 }
 
 pipinstall() {
