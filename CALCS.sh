@@ -337,10 +337,8 @@ mkdir -p "$BROWSERDIR/default_apps"
 mv "/home/$USERNAME/tmp/external_extensions.json" "$BROWSERDIR/default_apps/"
 
 # Enable services.
-loginctl enable-linger "$USERNAME"
-runuser -u "$USERNAME" -- systemctl --user enable --now pipewire wireplumber pipewire-pulse
-runuser -u "$USERNAME" -- systemctl --user enable --now hyprpolkitagent.service
-loginctl disable-linger "$USERNAME"
+runuser -u "$USERNAME" -- systemctl --user enable pipewire wireplumber pipewire-pulse
+runuser -u "$USERNAME" -- systemctl --user enable hyprpolkitagent.service
 
 # If user has MIPI webcam, disable V4L2 and enable PipeWire.
 if [ "$HAS_MIPI" = true ]; then
