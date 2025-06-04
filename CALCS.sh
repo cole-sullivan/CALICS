@@ -336,8 +336,11 @@ BROWSERDIR="/opt/thorium-browser"
 mkdir -p "$BROWSERDIR/default_apps"
 mv "/home/$USERNAME/tmp/external_extensions.json" "$BROWSERDIR/default_apps/"
 
-# Enable PipeWire and WirePlumber.
+# Enable services.
+loginctl enable-linger "$USERNAME"
 runuser -u "$USERNAME" -- systemctl --user enable --now pipewire wireplumber pipewire-pulse
+runuser -u "$USERNAME" -- systemctl --user enable --now hyprpolkitagent.service
+loginctl disable-linger "$USERNAME"
 
 # If user has MIPI webcam, disable V4L2 and enable PipeWire.
 if [ "$HAS_MIPI" = true ]; then
@@ -356,9 +359,6 @@ echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
 # Set Neovim as default git editor.
 sudo -u "$USERNAME" git config --global core.editor "nvim"
-
-# Autostart hyprpolkitagent.
-runuser -u "$USERNAME" -- systemctl --user enable --now hyprpolkitagent.service
 
 # If user has fingerprint reader, install fprintd and enroll fingerprint.
 if [ "$HAS_FPRINT" = true ]; then
